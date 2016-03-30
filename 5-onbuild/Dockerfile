@@ -33,10 +33,10 @@ RUN curl -s http://getcomposer.org/installer | php \
 # Add vendor binaries to PATH
 ENV PATH=/var/www/html/vendor/bin:$PATH
 
-ONBUILD COPY . /var/www/html
-ONBUILD RUN rm -Rf vendor/
-ONBUILD RUN rm -Rf tests/
+ONBUILD COPY composer.json composer.lock /var/www/html
 ONBUILD RUN composer install --prefer-dist --optimize-autoloader --no-dev --profile -vvv
+ONBUILD COPY . /var/www/html
+ONBUILD RUN rm -Rf tests/
 
 # Configure directory permissions for the web server
 ONBUILD RUN chown -R www-data:www-data /var/www/html/storage/
